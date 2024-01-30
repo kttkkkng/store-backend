@@ -1,0 +1,24 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "moduleResolution": "nodenext",
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "paths": {
+      "#config/*": ["./config/*"],
+      "#controller/*": ["./controller/*"],
+      "#middleware/*": ["./middleware/*"],
+      "#model/*": ["./model/*"],
+      "#route/*": ["./route/*"],
+      "#service/*": ["./service/*"]
+    }
+  },
+  "include": ["**/*"],
+  "exclude": ["node_modules"]
+}
