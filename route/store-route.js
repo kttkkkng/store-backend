@@ -1,3 +1,4 @@
+import { Checkout, SaleHistory } from "#controller/sale-controller.js";
 import { CreateStore, DeleteStore, SaleList, StoreInfo, StoreList, UpdateProductInStore, UpdateStore } from "#controller/store-controller.js";
 import { Router } from "express";
 
@@ -11,3 +12,6 @@ store_route.delete('/:store_id/delete', DeleteStore)
 
 store_route.get('/sale', SaleList)
 store_route.put('/:store_id/product/list', UpdateProductInStore)
+
+store_route.post('/sale/checkout', Checkout)
+store_route.get('/:store_id/sale/history', SaleHistory)

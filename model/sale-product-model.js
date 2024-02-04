@@ -12,6 +12,7 @@ export function SaleProductModel (database_connection) {
     product_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      primaryKey: true,
     },
     product_img: DataTypes.STRING,
     product_name: {

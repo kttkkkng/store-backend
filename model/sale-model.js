@@ -18,6 +18,7 @@ export function SaleModel (database_connection) {
       allowNull: false,
     },
     sale_note: DataTypes.STRING,
+    total_price: DataTypes.INTEGER,
   })
   /** @param {Record<string, import('sequelize').ModelCtor<any>>} models */
   const SetupRelation = function (models) {
@@ -28,6 +29,7 @@ export function SaleModel (database_connection) {
 
     model.hasOne(models.store, {
       foreignKey: 'store_id',
+      sourceKey: 'store_id',
       as: 'store',
     })
 
