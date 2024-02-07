@@ -10,6 +10,8 @@ import { SaleProductModel } from "#model/sale-product-model.js";
 import { StoreProductModel } from "#model/store-product-model.js";
 import { UserModel } from "#model/user-model.js";
 import { UserPermissionCompanyModel } from "#model/user-permission-company-model.js";
+import { PageModel } from "#model/page-model.js";
+import { PageProductModel } from "#model/page-product-model.js";
 
 config()
 
@@ -43,6 +45,8 @@ const model_list = [
   StoreProductModel,
   UserModel,
   UserPermissionCompanyModel,
+  PageModel,
+  PageProductModel,
 ]
 
 /**

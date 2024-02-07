@@ -5,6 +5,7 @@ import cors from 'cors'
 import { store_route } from '#route/store-route.js'
 import { product_route } from '#route/product-route.js'
 import { category_route } from '#route/category-route.js'
+import { page_route } from '#route/page-route.js'
 
 /** @param {import('express').Express} server */
 export function SetupRoute (server) {
@@ -18,6 +19,7 @@ export function SetupRoute (server) {
   server.use('/auth', auth_route)
   server.use('/store', store_route)
   server.use('/product', product_route)
+  server.use('/page', page_route)
   server.use('/category', category_route)
 
   server.use(ErrorHandler)

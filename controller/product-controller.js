@@ -31,8 +31,8 @@ export async function CreateProduct (req, res, next) {
     req.body.company_id = 2
 
     const product = await database_connection.transaction(async t => {
-      const product = await CreateProductService(req.body)
-      if (req.body.category && req.body.category.length > 0) await AddProductToCategoryService(req.body.category, product.product_id)
+      const product = await CreateProductService(req.body, t)
+      if (req.body.category && req.body.category.length > 0) await AddProductToCategoryService(req.body.category, product.product_id, t)
       return product
     })
 
@@ -46,9 +46,9 @@ export async function CreateProduct (req, res, next) {
 export async function UpdateProduct (req, res, next) {
   try {
     await database_connection.transaction(async t => {
-      if (req.body.remove_category) await RemoveProductFromCategoryService(req.body.remove_category, req.params.product_id)
-      if (req.body.add_category) await AddProductToCategoryService(req.body.add_category, req.params.product_id)
-      await UpdateProductService(2, req.params.product_id, req.body.product)
+      if (req.body.remove_category) await RemoveProductFromCategoryService(req.body.remove_category, req.params.product_id, t)
+      if (req.body.add_category) await AddProductToCategoryService(req.body.add_category, req.params.product_id, t)
+      await UpdateProductService(2, req.params.product_id, req.body.product, t)
     })
 
     res.send({ status: 'success' })

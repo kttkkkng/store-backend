@@ -1,10 +1,10 @@
 import { DataTypes } from 'sequelize';
 
 /** @param {import('sequelize').Sequelize} database_connection */
-export function ProductModel (database_connection) {
-  const model_name = /** @type {const} */ ("product")
+export function PageModel (database_connection) {
+  const model_name = /** @type {const} */ ("page")
   const model = database_connection.define(model_name, {
-    product_id: {
+    page_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
@@ -14,19 +14,10 @@ export function ProductModel (database_connection) {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    product_index: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    product_name: {
+    page_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    product_price: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    product_img: DataTypes.STRING,
   })
   /** @param {Record<string, import('sequelize').ModelCtor<any>>} models */
   const SetupRelation = function (models) {
@@ -35,23 +26,8 @@ export function ProductModel (database_connection) {
       as: 'company',
     })
 
-    model.hasMany(models.product_category, {
-      foreignKey: 'product_id',
-      as: 'product_category',
-    })
-
-    model.hasMany(models.store_product, {
-      foreignKey: 'product_id',
-      as: 'store_product',
-    })
-
-    model.hasMany(models.sale_product, {
-      foreignKey: 'product_id',
-      as: 'sale_product',
-    })
-
     model.hasMany(models.page_product, {
-      foreignKey: 'product_id',
+      foreignKey: 'page_id',
       as: 'page_product',
     })
   }

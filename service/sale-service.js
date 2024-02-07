@@ -15,12 +15,13 @@ const { sale, sale_product, store } = models
  * @property {string} sale_uuid
  * @property {number} company_id
  * @property {number} store_id
+ * @property {number} total_price
  * @property {string} [sale_note]
  * @property {SaleProduct[]} sale_product
  * 
  * @param {Sale} sales 
  */
-export function CheckoutService (sales) {
+export function CheckoutService (sales ,transaction) {
   return sale.create(sales, {
     include: [
       {
@@ -28,6 +29,7 @@ export function CheckoutService (sales) {
         as: 'sale_product',
       },
     ],
+    transaction: transaction,
   })
 }
 

@@ -31,8 +31,8 @@ export async function CreateStore (req, res, next) {
     req.body.company_id = 2
 
     const store = await database_connection.transaction(async t => {
-      const store = await CreateStoreService(req.body)
-      if (req.body.product && req.body.product.length > 0) await AddProductToStoreService(store.store_id, req.body.product)
+      const store = await CreateStoreService(req.body, t)
+      if (req.body.product && req.body.product.length > 0) await AddProductToStoreService(store.store_id, req.body.product, t)
       return store
     })
 
@@ -46,9 +46,9 @@ export async function CreateStore (req, res, next) {
 export async function UpdateStore (req, res, next) {
   try {
     await database_connection.transaction(async t => {
-      if (req.body.remove_product) await RemoveProductFromStoreService(req.params.store_id, req.body.remove_product)
-      if (req.body.add_product) await AddProductToStoreService(req.params.store_id, req.body.add_product.map(each => ({ product_id: each })))
-      await UpdateStoreService(2, req.params.store_id, req.body.store)
+      if (req.body.remove_product) await RemoveProductFromStoreService(req.params.store_id, req.body.remove_product, t)
+      if (req.body.add_product) await AddProductToStoreService(req.params.store_id, req.body.add_product.map(each => ({ product_id: each })), t)
+      await UpdateStoreService(2, req.params.store_id, req.body.store, t)
     })
 
     res.send({ status: 'success' })
@@ -85,8 +85,8 @@ export async function UpdateProductInStore (req, res, next) {
     const { add_product, remove_product } = req.body
 
     await database_connection.transaction(async t => {
-      await AddProductToStoreService(req.params.store_id, add_product)
-      await RemoveProductFromStoreService(req.params.store_id, remove_product)
+      await AddProductToStoreService(req.params.store_id, add_product, t)
+      await RemoveProductFromStoreService(req.params.store_id, remove_product, t)
     })
 
     res.send({ status: 'success' })

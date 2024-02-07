@@ -9,7 +9,7 @@ export async function Checkout (req, res, next) {
     sales.company_id = 2
 
     database_connection.transaction(async t => {
-      await CheckoutService(sales)
+      await CheckoutService(sales, t)
     })
 
     res.send({ status: 'success' })

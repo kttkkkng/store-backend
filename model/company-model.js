@@ -42,6 +42,11 @@ export function CompanyModel (database_connection) {
       foreignKey: 'company_id',
       as: 'sale',
     })
+
+    model.hasMany(models.page, {
+      foreignKey: 'company_id',
+      as: 'page',
+    })
   }
 
   return { model_name, model, SetupRelation }

@@ -33,11 +33,11 @@ export function ProductInfoService (company_id, product_id) {
   })
 }
 
-export function CreateProductService (payload) {
-  return product.create(payload)
+export function CreateProductService (payload, transaction) {
+  return product.create(payload, { transaction })
 }
 
-export function UpdateProductService (company_id, product_id, payload) {
+export function UpdateProductService (company_id, product_id, payload, transaction) {
   delete payload.product_id
   delete payload.updated_at
   delete payload.deleted_at
@@ -47,6 +47,7 @@ export function UpdateProductService (company_id, product_id, payload) {
       company_id: company_id,
       product_id: product_id,
     },
+    transaction: transaction,
   })
 }
 
@@ -59,15 +60,16 @@ export function DeleteProductService (company_id, product_id) {
   })
 }
 
-export function AddProductToCategoryService (category_id_arr, product_id) {
-  return product_category.bulkCreate(category_id_arr.map(each => ({ product_id: product_id, category_id: each })))
+export function AddProductToCategoryService (category_id_arr, product_id, transaction) {
+  return product_category.bulkCreate(category_id_arr.map(each => ({ product_id: product_id, category_id: each })), { transaction })
 }
 
-export function RemoveProductFromCategoryService (category_id_arr, product_id) {
+export function RemoveProductFromCategoryService (category_id_arr, product_id, transaction) {
   return product_category.destroy({
     where: {
       category_id: category_id_arr,
       product_id: product_id,
     },
+    transaction: transaction,
   })
 }

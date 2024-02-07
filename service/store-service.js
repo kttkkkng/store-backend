@@ -1,7 +1,7 @@
 import { models } from "#config/database.js";
 import { literal } from "sequelize";
 
-const { store, store_product, product, product_category } = models
+const { store, store_product, product, product_category, page_product } = models
 
 export function StoreListService (company_id) {
   return store.findAll({
@@ -32,11 +32,11 @@ export function StoreInfoService (company_id, store_id) {
   })
 }
 
-export function CreateStoreService (payload) {
-  return store.create(payload)
+export function CreateStoreService (payload, transaction) {
+  return store.create(payload, { transaction })
 }
 
-export function UpdateStoreService (company_id, store_id, payload) {
+export function UpdateStoreService (company_id, store_id, payload, transaction) {
   delete payload.store_id
   delete payload.updated_at
   delete payload.deleted_at
@@ -46,6 +46,7 @@ export function UpdateStoreService (company_id, store_id, payload) {
       company_id: company_id,
       store_id: store_id,
     },
+    transaction: transaction,
   })
 }
 
@@ -66,7 +67,7 @@ export function SaleListService (company_id) {
       'product_index',
       'product_name',
       'product_price',
-      [literal('ARRAY_REMOVE(ARRAY_AGG(DISTINCT product_category.category_id), NULL)'), 'category'],
+      [literal('jsonb_object_agg(COALESCE(page_product.page_id, 0), page_product.index)'), 'page'],
       [literal("jsonb_object_agg(store_product.store_id, store_product.amount)"), 'store'],
     ],
     raw: true,
@@ -79,8 +80,8 @@ export function SaleListService (company_id) {
       },
       {
         attributes: [],
-        model: product_category,
-        as: 'product_category',
+        model: page_product,
+        as: 'page_product',
         required: false,
       },
     ],
@@ -88,7 +89,6 @@ export function SaleListService (company_id) {
       company_id: company_id,
     },
     group: ['product.product_id'],
-    order: ['product_index'],
   })
 }
 
@@ -96,18 +96,19 @@ export function SaleListService (company_id) {
  * @param {*} store_id 
  * @param {{ product_id: number, amount: number, store_id?: number }[]} product_arr 
  */
-export function AddProductToStoreService (store_id, product_arr) {
+export function AddProductToStoreService (store_id, product_arr, transaction) {
   for (let index = 0; index < product_arr.length; index++) {
     product_arr[index].store_id = store_id;
   }
-  return store_product.bulkCreate(product_arr)
+  return store_product.bulkCreate(product_arr, { transaction })
 }
 
-export function RemoveProductFromStoreService (store_id, product_id_arr) {
+export function RemoveProductFromStoreService (store_id, product_id_arr, transaction) {
   return store_product.destroy({
     where: {
       store_id: store_id,
       product_id: product_id_arr,
     },
+    transaction: transaction,
   })
 }
