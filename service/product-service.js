@@ -5,7 +5,16 @@ const { product, product_category } = models
 
 export function ProductListService (company_id) {
   return product.findAll({
-    attributes: ['product_id', 'product_img', 'product_index', 'product_name', 'product_price', [literal('ARRAY_REMOVE(ARRAY_AGG(product_category.category_id), NULL)'), 'category']],
+    attributes: [
+      'product_id',
+      'product_img',
+      'product_index',
+      'product_name',
+      'product_price',
+      'shape',
+      'color',
+      [literal('ARRAY_REMOVE(ARRAY_AGG(product_category.category_id), NULL)'), 'category'],
+    ],
     include: [
       {
         attributes: [],

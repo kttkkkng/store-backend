@@ -27,6 +27,14 @@ export function ProductModel (database_connection) {
       allowNull: false,
     },
     product_img: DataTypes.STRING,
+    shape: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    color: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   })
   /** @param {Record<string, import('sequelize').ModelCtor<any>>} models */
   const SetupRelation = function (models) {

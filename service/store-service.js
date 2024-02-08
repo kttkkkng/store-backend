@@ -67,6 +67,8 @@ export function SaleListService (company_id) {
       'product_index',
       'product_name',
       'product_price',
+      'shape',
+      'color',
       [literal('jsonb_object_agg(COALESCE(page_product.page_id, 0), page_product.index)'), 'page'],
       [literal("jsonb_object_agg(store_product.store_id, store_product.amount)"), 'store'],
     ],
