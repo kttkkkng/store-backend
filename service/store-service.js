@@ -96,13 +96,10 @@ export function SaleListService (company_id) {
 
 /**
  * @param {*} store_id 
- * @param {{ product_id: number, amount: number, store_id?: number }[]} product_arr 
+ * @param {number[]} product_arr 
  */
 export function AddProductToStoreService (store_id, product_arr, transaction) {
-  for (let index = 0; index < product_arr.length; index++) {
-    product_arr[index].store_id = store_id;
-  }
-  return store_product.bulkCreate(product_arr, { transaction })
+  return store_product.bulkCreate(product_arr.map(each => ({ product_id: each, store_id: store_id })), { transaction })
 }
 
 export function RemoveProductFromStoreService (store_id, product_id_arr, transaction) {

@@ -46,8 +46,8 @@ export async function CreateStore (req, res, next) {
 export async function UpdateStore (req, res, next) {
   try {
     await database_connection.transaction(async t => {
-      if (req.body.remove_product) await RemoveProductFromStoreService(req.params.store_id, req.body.remove_product, t)
-      if (req.body.add_product) await AddProductToStoreService(req.params.store_id, req.body.add_product.map(each => ({ product_id: each })), t)
+      if (req.body.remove_product && req.body.remove_product.length > 0) await RemoveProductFromStoreService(req.params.store_id, req.body.remove_product, t)
+      if (req.body.add_product && req.body.add_product.length > 0) await AddProductToStoreService(req.params.store_id, req.body.add_product, t)
       await UpdateStoreService(2, req.params.store_id, req.body.store, t)
     })
 
